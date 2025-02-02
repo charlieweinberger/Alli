@@ -8,8 +8,31 @@ export async function POST(request: Request) {
   const newMessage = await db.insert(messages).values(body).returning();
   return NextResponse.json(newMessage, { status: 201 });
 }
-export async function GET() {
-  const allMessages = await db.query.messages.findMany();
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const currentUserID = searchParams.get("currentUserID");
+  const respondingTo = searchParams.get("respondingTo");
+
+  let allMessages;
+
+  if (currentUserID && respondingTo) {
+    allMessages = await db.query.messages.findMany({
+      where: (messages, { and, or, eq }) =>
+        and(
+          or(
+            eq(messages.senderId, parseInt(currentUserID)),
+            eq(messages.receiverId, parseInt(respondingTo))
+          ),
+          or(
+            eq(messages.receiverId, parseInt(currentUserID)),
+            eq(messages.senderId, parseInt(respondingTo))
+          )
+        ),
+    });
+  } else {
+    allMessages = await db.query.messages.findMany();
+  }
+
   return NextResponse.json(allMessages);
 }
 
@@ -27,11 +50,14 @@ export async function PUT(
   return NextResponse.json(updatedMessage);
 }
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
-    const messageId = parseInt(params.id);
-    const deletedMessage = await db
-      .delete(messages)
-      .where(eq(messages.id, messageId))
-      .returning();
-    return NextResponse.json(deletedMessage);
-  }
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  const messageId = parseInt(params.id);
+  const deletedMessage = await db
+    .delete(messages)
+    .where(eq(messages.id, messageId))
+    .returning();
+  return NextResponse.json(deletedMessage);
+}
