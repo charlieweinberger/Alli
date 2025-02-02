@@ -26,15 +26,17 @@ export async function GET(request: Request) {
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
 ) {
-  const userId = parseInt(params.id);
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get("id");
   const body = await request.json();
+  console.log(body);
   const updatedUser = await db
     .update(users)
     .set(body)
-    .where(eq(users.userId, userId))
+    .where(eq(users.userId, parseInt(id!)))
     .returning();
+  console.log(updatedUser)
   return NextResponse.json(updatedUser);
 }
 

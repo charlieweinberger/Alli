@@ -5,7 +5,13 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const newMessage = await db.insert(messages).values(body).returning();
+  const newMessage = await db
+  .insert(messages)
+  .values({
+    ...body,
+    timestamp: new Date(),
+  })
+  .returning();
   return NextResponse.json(newMessage, { status: 201 });
 }
 export async function GET(request: Request) {

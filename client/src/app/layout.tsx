@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { AuthProvider } from "@/components/AuthProvider";
 import Navbar from "../components/Navbar";
+import Clouds from "../components/Cloud";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,9 @@ export default function RootLayout({
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <div className="flex flex-col">
             <Navbar />
+            <div className="fixed inset-0 -z-10 flex gap-4 overflow-hidden opacity-20 bg-rose-700">
+              <Clouds />
+            </div>
             <main>
               {children}
             </main>

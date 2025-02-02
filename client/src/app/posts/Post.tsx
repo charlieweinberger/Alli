@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { Post as PostType, User } from "../../lib/types";
 import Image from "next/image";
-import { useAuth } from "../../components/AuthProvider";
 import { useRouter } from "next/navigation";
+import { Post as PostType, User } from "../../lib/types";
+import { useAuth } from "../../components/AuthProvider";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   post: PostType;
@@ -12,21 +13,22 @@ function MakeConnection({ user, responder }: { user: User; responder: User }) {
   const router = useRouter();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await fetch("/api/connections", {
+    const _response = await fetch("/api/connections", {
       method: "POST",
       body: JSON.stringify({
         user: user.userId,
         responder: responder.userId,
       }),
     });
-    if (response.ok) {
-      router.push(`/chat/${responder.userId}`);
+    if (_response.ok) {
+      console.log("Connected");
     }
+    router.push(`/chat/${responder.userId}`);
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <button className="bg-blue-500 text-white p-2 rounded">Connect</button>
+      <Button>Connect</Button>
     </form>
   );
 }
@@ -83,7 +85,7 @@ export default function Post({ post }: Props) {
               }}
             >
               <p>Gender Identity: {sender.genderIdentity}</p>
-              <p>Sexuality: {sender.sexuality}</p>
+              <p>Sexual Orientation: {sender.sexuality}</p>
             </div>
           )}
         </div>
