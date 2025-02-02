@@ -16,19 +16,26 @@ export async function GET(request: Request) {
   let allMessages;
 
   if (currentUserID && respondingTo) {
-    allMessages = await db.query.messages.findMany({
-      where: (messages, { and, or, eq }) =>
+    const sentMessages = await db.query.messages.findMany({
+      where: (messages, { and, eq }) =>
         and(
-          or(
-            eq(messages.senderId, parseInt(currentUserID)),
-            eq(messages.receiverId, parseInt(respondingTo))
-          ),
-          or(
-            eq(messages.receiverId, parseInt(currentUserID)),
-            eq(messages.senderId, parseInt(respondingTo))
-          )
+          eq(messages.senderId, parseInt(currentUserID)),
+          eq(messages.receiverId, parseInt(respondingTo))
         ),
     });
+
+    const receivedMessages = await db.query.messages.findMany({
+      where: (messages, { and, eq }) =>
+        and(
+          eq(messages.senderId, parseInt(respondingTo)),
+          eq(messages.receiverId, parseInt(currentUserID))
+        ),
+    });
+
+    allMessages = {
+      sent: sentMessages,
+      received: receivedMessages,
+    };
   } else {
     allMessages = await db.query.messages.findMany();
   }

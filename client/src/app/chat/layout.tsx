@@ -19,6 +19,7 @@ export default function ChatLayout({
         const response = await fetch(`/api/connections/?id=${currentUserID}`);
         const data = await response.json();
         setConnections(data);
+        setResponders(data.map((conn: Connection) => conn.responder));
         console.log("Connections:", data);
       } catch (error) {
         console.error("Error fetching connections:", error);
