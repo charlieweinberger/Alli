@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "./AuthProvider";
 import { User } from "@/lib/types";
 
-interface SignInProps {
-  onSignIn: (user: User) => void;
-}
-
-const SignIn: React.FC<SignInProps> = ({ onSignIn }) => {
+const SignIn = () => {
   const [formData, setFormData] = useState<Partial<User>>({
     username: "",
     name: "",
@@ -35,14 +31,19 @@ const SignIn: React.FC<SignInProps> = ({ onSignIn }) => {
     e.preventDefault();
     if (formData.username?.trim()) {
       try {
-        const response = await fetch("/api/users");
-        const users: User[] = await response.json();
-        const user = users.find((u: User) => u.username === formData.username);
-        if (user) {
+        const response = await fetch("/api/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+          const user = await response.json();
           auth.login(user);
-          onSignIn(user);
         } else {
-          alert("User not found");
+          alert("Error creating user");
         }
       } catch (error) {
         console.error("Error during sign in:", error);

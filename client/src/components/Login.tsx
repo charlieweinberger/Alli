@@ -2,19 +2,13 @@ import React, { useState } from "react";
 import { useAuth } from "./AuthProvider";
 import { User } from "@/lib/types";
 
-interface LoginProps {
-  onLogin: (username: string) => void;
-}
-
-const Login: React.FC<LoginProps> = ({ onLogin }) => {
+const Login = () => {
   const [username, setUsername] = useState("");
   const auth = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (username.trim()) {
-      onLogin(username.trim());
-    }
+
     const response = await fetch("/api/users");
     const users: User[] = await response.json();
     const user = users.find((u: User) => u.username === username);
