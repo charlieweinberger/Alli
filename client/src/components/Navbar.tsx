@@ -6,9 +6,7 @@ import {
   StickyNote,
   MessageCircle,
   Volume2,
-  Sun,
   CircleUserRound,
-  Settings,
 } from "lucide-react";
 
 export default function Navbar() {
@@ -46,9 +44,6 @@ export default function Navbar() {
       <div className="flex-1 text-center font-bold text-3xl">Alli</div>
 
       <div className="flex-1 flex justify-end">
-        <Button variant="ghost">
-          <Sun />
-        </Button>
         <Button
           variant="ghost"
           onClick={() => {
@@ -56,9 +51,6 @@ export default function Navbar() {
           }}
         >
           <CircleUserRound />
-        </Button>
-        <Button variant="ghost">
-          <Settings />
         </Button>
       </div>
     </div>

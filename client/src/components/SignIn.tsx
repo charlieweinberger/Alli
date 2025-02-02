@@ -46,7 +46,7 @@ export default function SignIn() {
             />
           </div>
           <Button className="w-full">
-            Sign In
+            <Link href="/posts">Sign In</Link>
           </Button>
         </form>
         <div className="w-full mt-2 mb-[-8px] flex flex-row items-center">

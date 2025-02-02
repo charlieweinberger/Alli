@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "./AuthProvider";
 import { User } from "@/lib/types";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface inputType {
   name: string,
@@ -169,7 +170,7 @@ export default function SignUp() {
           />
         </div>
         <Button className="w-full">
-          Sign In
+          <Link href="/posts">Sign Up</Link>
         </Button>
       </form>
     </div>
