@@ -7,7 +7,6 @@ import React, {
   useRef,
   useOptimistic,
   useTransition,
-  startTransition,
 } from "react";
 import { Connection, Message } from "@/lib/types";
 import { useConnections } from "../layout";
@@ -28,9 +27,9 @@ const MessageList = React.memo(
 
     return (
       <div className="flex flex-col space-y-4">
-        {messages.map((message) => (
+        {messages.map((message, index) => (
           <div
-            key={message.id}
+            key={index}
             className={`flex flex-col ${
               message.senderId === currentUserID ? "items-end" : "items-start"
             }`}
