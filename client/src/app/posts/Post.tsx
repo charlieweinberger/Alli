@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React,{ useState, useEffect, useMemo} from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Post as PostType, User } from "../../lib/types";
@@ -33,20 +33,25 @@ function MakeConnection({ user, responder }: { user: User; responder: User }) {
   );
 }
 
-function ProfileImage() {
+const ProfileImage = React.memo(() => {
+  const imageUrl = useMemo(() => 
+    `https://randomfox.ca/images/${Math.floor(Math.random() * 51)}.jpg`,
+    [] // Empty dependency array since we want the URL to stay constant
+  );
+
   return (
     <div className="relative w-12 h-12 rounded-full overflow-hidden">
       <Image
-        src={`https://randomfox.ca/images/${Math.floor(
-          Math.random() * 51
-        )}.jpg`}
+        src={imageUrl}
         alt="profile"
         layout="fill"
         objectFit="cover"
       />
     </div>
   );
-}
+});
+
+ProfileImage.displayName = 'ProfileImage';
 
 export default function Post({ post }: Props) {
   const user = useAuth();
