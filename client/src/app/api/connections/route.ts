@@ -14,7 +14,7 @@ export async function GET(request: Request) {
   const connectId = id ? parseInt(id) : null;
 
   if (connectId) {
-    const conn = await db.query.connection.findFirst({
+    const conn = await db.query.connection.findMany({
       where: eq(connection.connectId, connectId),
     });
     return NextResponse.json(conn);
