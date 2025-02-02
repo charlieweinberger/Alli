@@ -49,9 +49,9 @@ export default function SignIn() {
             Sign In
           </Button>
         </form>
-        <div className="w-full mt-2 mb-[-8px] flex flex-row items-center justify-between">
+        <div className="w-full mt-2 mb-[-8px] flex flex-row items-center">
             <p>Don&apos;t have an account?</p>
-            <Button variant="link" className="p-0 text-rose-500">
+            <Button variant="link" className="pl-2 pr-0 py-0 text-rose-500">
               <Link href="/signup">Sign Up</Link>
             </Button>
           </div>
