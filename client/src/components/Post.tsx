@@ -64,16 +64,17 @@ function MakeConnection({ user, responder }: { user: User; responder: User }) {
   const router = useRouter();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await fetch("/api/connections", {
+    const _response = await fetch("/api/connections", {
       method: "POST",
       body: JSON.stringify({
         user: user.userId,
         responder: responder.userId,
       }),
     });
-    if (response.ok) {
-      router.push(`/chat/${responder.userId}`);
+    if (_response.ok) {
+      console.log("Connected");
     }
+    router.push(`/chat/${responder.userId}`);
   };
 
   return (
