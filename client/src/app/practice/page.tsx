@@ -233,7 +233,7 @@ export default function VideoCall() {
       ) : (
         <div className="grid gap-1 flex-1">
           <EmotionalAnalysis data={frameData} />
-          <video ref={videoRef} autoPlay muted className="w-full h-full" />
+          <video ref={videoRef} autoPlay muted className="w-full h-[75vh]" />
 
           <HumeVoiceComponent
             accessToken={process.env.NEXT_PUBLIC_HUME_ACCESS_TOKEN!}
