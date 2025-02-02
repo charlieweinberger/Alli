@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "./AuthProvider";
 import { User } from "@/lib/types";
+import { Button } from "@/components/ui/button";
 
 interface inputType {
   name: string,
@@ -143,15 +144,9 @@ export default function SignUp() {
             );
           })}
         </div>
-
-        
-
-        <button
-          type="submit"
-          className="w-full mt-6 bg-rose-400 hover:bg-rose-500 text-white py-2 px-4 rounded-md transition-colors"
-        >
-          Sign Up
-        </button>
+        <Button className="w-full">
+          Sign In
+        </Button>
       </form>
     </div>
   );

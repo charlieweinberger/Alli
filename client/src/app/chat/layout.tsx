@@ -23,18 +23,11 @@ export default function ChatLayout({
 }
 
 import { createContext, useContext } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const People = () => {
   const { responders } = useConnections();
   const pathName = usePathname();
-  const { user } = useAuth();
-  const router = useRouter();
-  useEffect(() => {
-    if (!user && pathName !== "/signin" && pathName !== "/signup") {
-      router.push(`/signin?redirect=${encodeURIComponent(pathName)}`);
-    }
-  }, [user, pathName, router]);
   return (
     <nav>
       <ul>

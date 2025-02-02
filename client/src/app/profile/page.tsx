@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/components/AuthProvider";
 import { User } from "@/lib/types";
 import { Button } from "@/components/ui/button";
@@ -210,12 +210,18 @@ function Profile({ user }: { user: User }) {
 }
 
 export default function ProfilePage() {
+  
   const { user } = useAuth();
   const router = useRouter();
-  if (!user) {
-    router.push("/signin");
-    return null;
-  }
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/signin");
+    }
+  }, [user, router]);
+
+  if (!user) return null;
+
   return (
     <div>
       <Profile user={user} />

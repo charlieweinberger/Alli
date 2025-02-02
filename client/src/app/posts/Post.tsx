@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Post as PostType, User } from "../../lib/types";
 import { useAuth } from "../../components/AuthProvider";
 import { Button } from "@/components/ui/button";
@@ -52,15 +52,6 @@ export default function Post({ post }: Props) {
   const user = useAuth();
   const [sender, setSender] = useState<User | null>(null);
   const [showProfile, setShowProfile] = useState(false);
-  const router = useRouter();
-  const pathName = usePathname();
-  useEffect(() => {
-    console.log("Checking user");
-    if (!user && pathName !== "/signin" && pathName !== "/signup") {
-      console.log("Redirecting to signin");
-      router.push(`/signin?redirect=${encodeURIComponent(pathName)}`);
-    }
-  }, [user, pathName, router]);
   useEffect(() => {
     const fetchSender = async () => {
       const response = await fetch(`/api/users?id=${post.userId}`);

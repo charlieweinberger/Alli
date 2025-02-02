@@ -7,8 +7,8 @@ export default function Clouds() {
   const [clouds, setClouds] = useState<number[]>([]);
 
   useEffect(() => {
-    // Generate random number of clouds (between 5 and 10)
-    const numClouds = Math.floor(Math.random() * 6) + 5;
+    // Generate random number of clouds (between 15 and 20)
+    const numClouds = Math.floor(Math.random() * 5) + 15;
     const cloudArray = Array.from({ length: numClouds }, (_, i) => i);
     setClouds(cloudArray);
   }, []);
@@ -23,16 +23,16 @@ export default function Clouds() {
         const top = Math.floor(Math.random() * 100); // Random vertical position
 
         return (
-          <img
+          <Image
             key={cloud}
             src="/cloud.png" // Replace with your cloud image
             alt="Cloud"
-            className="absolute opacity-70"
+            className="absolute opacity-70 select-none"
             width={size}
             height={size}
             style={{
               top: `${top}%`,
-              animation: `slide ${duration + 5}s linear ${delay}s infinite`,
+              animation: `slide ${duration + 5}s linear ${delay}s infinite alternate`,
             }}
           />
         );
