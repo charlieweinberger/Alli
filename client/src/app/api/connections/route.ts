@@ -1,10 +1,24 @@
 import { db } from "@/db/drizzle";
 import { connection } from "@/db/schema";
-import { eq } from "drizzle-orm/pg-core/expressions";
+import { and, eq } from "drizzle-orm/pg-core/expressions";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const body = await request.json();
+  const existingConnections = await db.query.connection.findMany({
+    where: and(
+      eq(connection.user, body.user),
+      eq(connection.responder, body.responder)
+    ),
+  });
+
+  if (existingConnections.length > 0) {
+    return NextResponse.json(
+      { message: "Connection already exists" },
+      { status: 400 }
+    );
+  }
+
   const newConnection = await db.insert(connection).values(body).returning();
   return NextResponse.json(newConnection, { status: 201 });
 }
@@ -15,7 +29,7 @@ export async function GET(request: Request) {
 
   if (connectId) {
     const conn = await db.query.connection.findMany({
-      where: eq(connection.connectId, connectId),
+      where: eq(connection.user, connectId),
     });
     return NextResponse.json(conn);
   }

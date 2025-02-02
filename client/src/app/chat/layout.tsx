@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Connection } from "@/lib/types";
+import { Connection, User } from "@/lib/types";
 import { useAuth } from "@/components/AuthProvider";
 
 export default function ChatLayout({
@@ -9,17 +9,82 @@ export default function ChatLayout({
 }: {
   children: React.ReactNode;
 }) {
+  return (
+    <ConnectionProvider>
+      <div className="flex">
+        <aside className="w-64 h-screen bg-gray-100 p-4">
+          <h2 className="text-xl font-bold mb-4">Connections</h2>
+          <People />
+        </aside>
+        <section className="flex-1">{children}</section>
+      </div>
+    </ConnectionProvider>
+  );
+}
+
+import { createContext, useContext } from "react";
+import { usePathname } from "next/navigation";
+
+const People = () => {
+  const { responders } = useConnections();
+  const pathName = usePathname();
+  return (
+    <nav>
+      <ul>
+        {responders.map((user: User) => (
+          <li key={user.userId} className="mb-2">
+            <Link
+              href={`/chat/${user.userId}`}
+              className={`p-2 rounded block ${
+                pathName === `/chat/${user.userId}`
+                  ? "bg-gray-300"
+                  : "hover:bg-gray-200"
+              }`}
+            >
+              {user.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
+
+type ConnectionContextType = {
+  connections: Connection[];
+  responders: User[];
+  setConnections: (connections: Connection[]) => void;
+  setResponders: (responders: User[]) => void;
+};
+
+const ConnectionContext = createContext<ConnectionContextType | undefined>(
+  undefined
+);
+
+export function ConnectionProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [connections, setConnections] = useState<Connection[]>([]);
+  const [responders, setResponders] = useState<User[]>([]);
   const { user } = useAuth();
   const currentUserID = user?.userId;
-  const [connections, setConnections] = useState<Connection[]>([]);
 
   useEffect(() => {
     const fetchConnections = async () => {
       try {
         const response = await fetch(`/api/connections/?id=${currentUserID}`);
         const data = await response.json();
+        const responderIds = data.map((conn: Connection) => conn.responder);
+        const responders = await Promise.all(
+          responderIds.map(async (id: number) => {
+            const response = await fetch(`/api/users/?id=${id}`);
+            return response.json();
+          })
+        );
+        setResponders(responders);
         setConnections(data);
-        console.log("Connections:", data);
       } catch (error) {
         console.error("Error fetching connections:", error);
       }
@@ -31,25 +96,18 @@ export default function ChatLayout({
   }, [currentUserID]);
 
   return (
-    <div className="flex">
-      <aside className="w-64 h-screen bg-gray-100 p-4">
-        <h2 className="text-xl font-bold mb-4">Connections</h2>
-        <nav>
-          <ul>
-            {connections.map((connection) => (
-              <li key={connection.connectId} className="mb-2">
-                <Link
-                  href={`/chat/${connection.connectId}`}
-                  className="hover:bg-gray-200 p-2 rounded block"
-                >
-                  {connection.connectId}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </aside>
-      <section className="flex-1">{children}</section>
-    </div>
+    <ConnectionContext.Provider
+      value={{ connections, setConnections, responders, setResponders }}
+    >
+      {children}
+    </ConnectionContext.Provider>
   );
+}
+
+export function useConnections() {
+  const context = useContext(ConnectionContext);
+  if (context === undefined) {
+    throw new Error("useConnections must be used within a ConnectionProvider");
+  }
+  return context;
 }
