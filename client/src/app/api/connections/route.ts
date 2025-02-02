@@ -20,6 +20,11 @@ export async function POST(request: Request) {
   }
 
   const newConnection = await db.insert(connection).values(body).returning();
+  const body2 = {
+    user: body.responder,
+    responder: body.user,
+  }
+  await db.insert(connection).values(body2).returning();
   return NextResponse.json(newConnection, { status: 201 });
 }
 export async function GET(request: Request) {
