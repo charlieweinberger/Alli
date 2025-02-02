@@ -54,7 +54,13 @@ async def process_image_stream(websocket: WebSocket):
 
                 # Convert raw frame data to numpy array
                 nparr = np.frombuffer(image_data, np.uint8)
+                # Decode and resize the image for better performance
                 image = cv2.imdecode(nparr, cv2.IMREAD_UNCHANGED)
+                # Reduce size to 640x480
+                image = cv2.resize(image, (2560, 1440))
+                # Enhance contrast and brightness
+                image = cv2.convertScaleAbs(image, alpha=1.2, beta=10)
+
                 image_bgr = cv2.cvtColor(image, cv2.COLOR_RGBA2BGR)
 
                 # Save the image to a temporary file
@@ -77,6 +83,7 @@ async def process_image_stream(websocket: WebSocket):
                         "face_probability": predictions.prob
                     })
                 else:
+
                     await websocket.send_json({
                         "emotions": [],
                         "face_detected": False,
@@ -90,7 +97,7 @@ async def process_image_stream(websocket: WebSocket):
                 await websocket.send_json({"error": str(e)})
                 break
 
-RELEVANT_EMOTIONS = ['Calmness', 'Distress', "Anxiety", "Awkwardness"]
+RELEVANT_EMOTIONS = ['Calmness', 'Distress', "Anxiety"]
 
 
 def process_emotions(emotions):

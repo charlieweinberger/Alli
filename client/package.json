@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@humeai/voice-react": "^0.1.19",
     "@radix-ui/react-toast": "^1.2.5",
     "@supabase/supabase-js": "^2.48.1",
     "class-variance-authority": "^0.7.1",

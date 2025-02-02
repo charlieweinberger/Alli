@@ -3,6 +3,7 @@
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { useEffect, useState, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { VoiceProvider } from "@humeai/voice-react";
 
 interface Emotion {
   name: string;
@@ -52,20 +53,36 @@ const EmotionalAnalysis = ({ data }: EmotionalAnalysisProps) => {
         setMessage((prevMessage) => {
           if (!prevMessage || !prevMessage.emotions || !response.emotions)
             return response;
-          return {
-            ...response,
-            emotions: response.emotions.map((emotion: Emotion) => ({
+          const smoothedEmotions = response.emotions.map(
+            (emotion: Emotion) => ({
               ...emotion,
               score:
                 0.7 * emotion.score +
                 0.3 *
                   (prevMessage.emotions!.find((e) => e.name === emotion.name)
                     ?.score || 0),
+            })
+          );
+
+          // Calculate the sum of all scores
+          const totalScore = smoothedEmotions.reduce(
+            (sum: number, emotion: Emotion) => sum + emotion.score,
+            0
+          );
+
+          // Normalize the scores
+          return {
+            ...response,
+            emotions: smoothedEmotions.map((emotion: Emotion) => ({
+              ...emotion,
+              score:
+                totalScore > 0 ? emotion.score / totalScore : emotion.score,
             })),
           };
         });
         setIsProcessing(false);
       } catch (error) {
+        console.error("Error parsing response:", error);
         setMessage({ error: "Failed to parse server response" });
         setIsProcessing(false);
       }
@@ -82,7 +99,7 @@ const EmotionalAnalysis = ({ data }: EmotionalAnalysisProps) => {
         ws.close();
       }
     };
-  }, [toast]);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -207,10 +224,40 @@ export default function VideoCall() {
         <div>Loading camera...</div>
       ) : (
         <div className="grid gap-1 flex-1">
-          <EmotionalAnalysis data={frameData} />
+          {/* <EmotionalAnalysis data={frameData} /> */}
           <video ref={videoRef} autoPlay muted className="w-full h-full" />
+
+          <HumeVoiceComponent
+            accessToken={process.env.NEXT_PUBLIC_HUME_ACCESS_TOKEN!}
+          />
         </div>
       )}
     </div>
   );
 }
+
+import { SessionSettings } from "hume/api/resources/empathicVoice";
+import { VoiceControls } from "./controls";
+interface HumeVoiceProps {
+  accessToken: string;
+}
+
+export const HumeVoiceComponent: React.FC<HumeVoiceProps> = ({
+  accessToken,
+}) => {
+  const [systemSettings] = useState<SessionSettings>({
+    type: "session_settings",
+    systemPrompt: `You are a agent, who is a test dummy who will be talked to by an LGBTQ+ Ally who will be talking to you about their experiences and will be practicing asking people out and
+    pick up lines on you to practice. You will be supportive and encouraging while giving advice on how to improve.
+      `,
+  });
+
+  return (
+    <VoiceProvider
+      auth={{ type: "apiKey", value: accessToken }}
+      sessionSettings={systemSettings}
+    >
+      <VoiceControls />
+    </VoiceProvider>
+  );
+};
