@@ -1,25 +1,19 @@
-import { pgTable, serial, text, varchar, integer, enum as pgEnum} from "drizzle-orm/pg-core";
+import { pgTable, serial, text, timestamp, boolean, varchar, integer, enum as pgEnum} from "drizzle-orm/pg-core";
 
 export const genderIdentityEnum = pgEnum('gender_identity', ['male', 'female', 'non-binary', 'other']);
-export const sexualIdentityEnum = pgEnum('sexual_identity', ['heterosexual', 'homosexual', 'bisexual', 'pansexual', 'asexual', 'aroace', 'aromantic', 'demisexual', 'other'])
+export const sexualIdentityEnum = pgEnum('sexual_identity', ['heterosexual', 'homosexual', 'bisexual', 'pansexual', 'asexual', 'aroace', 'aromantic', 'demisexual', 'other']);
 
-export const TEST = pgTable("TEST", {
-  id: serial("id").primaryKey(),
-  name: text("name"),
-  email: varchar("email", { length: 255 }).unique(),
-});
-
-export const users = pgTable("User", {
-  userId: serial("user_id").primaryKey(),
-  username: varchar('username', {length: 255}).notNull(),
-  password: varchar('password', {length: 255}).notNull(),
-  name: varchar('name', {length: 255}).notNull(),
-  pronouns: varchar('pronouns', {length: 255}).notNull(), 
-  genderIdentity: genderIdentityEnum('gender_identity').notNull(),
-  sexualIdentity: sexualIdentityEnum('sexual_identity').notNull(),
+export const users = pgTable('User', {
+  userId: serial('userId').primaryKey(),
+  username: text('username').notNull(),
+  password: text('password').notNull(),
+  name: text('name').notNull(),
+  pronouns: text('pronouns').notNull(), 
+  genderIdentity: text('genderIdentity'),
+  sexuality: text('sexuality'),
   bio: text('bio'),
-  college: varchar('college', {length: 255}),
-  major: varchar('major', {length: 255}), 
+  college: text('college'),
+  major: text('major'), 
   age: integer('age'),
 });
 
@@ -27,11 +21,36 @@ export const connectionStatusEnum = pgEnum('connection_status', ['pending', 'acc
 
 export const connection = pgTable('connections',{
   connectId: serial('connectId').primaryKey(),
-  user1Id: integer('user1_id')
+  poster: integer('poster')
     .notNull()
     .references(() => users.userId),
-  user2Id: integer('user2_id')
+  responder: integer('responder')
     .notNull()
     .references(() => users.userId),
   status: connectionStatusEnum('status').default('pending'),
+});
+
+export const bucket = pgTable('Bucket', {
+  userId: serial('userIJd')
+    .notNull()
+    .references(() => users.userId),
+  bucketId: serial("bucketId").primaryKey(),
+  bucketName: text('bucketName'),
+  profilePicture: text('profilePicture')
+});
+
+export const messages = pgTable('messages', {
+  id: serial('id').primaryKey(),
+  connectionId: integer('connection_id')
+    .notNull()
+    .references(() => connection.id),
+  senderId: integer('sender_id')
+    .notNull()
+    .references(() => users.userId), 
+  receiverId: integer('receiver_id')
+    .notNull()
+    .references(() => users.userId),
+  content: text('content').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+  isRead: boolean('is_read').default(false),
 });
