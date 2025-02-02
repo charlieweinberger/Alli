@@ -1,7 +1,15 @@
 "use client";
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 
 const Clouds: React.FC = () => {
+=======
+
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+
+export default function Clouds() {
+>>>>>>> 665252bfc240715f0d9a473fd1513ca00f34a970
   const [clouds, setClouds] = useState<number[]>([]);
 
   useEffect(() => {
@@ -26,16 +34,16 @@ const Clouds: React.FC = () => {
             src="/cloud.png" // Replace with your cloud image
             alt="Cloud"
             className="absolute opacity-70"
+            width={size}
+            height={size}
             style={{
-              width: `${size}px`,
               top: `${top}%`,
               animation: `slide ${duration + 5}s linear ${delay}s infinite`,
             }}
           />
         );
+
       })}
     </div>
   );
-};
-
-export default Clouds;
+}

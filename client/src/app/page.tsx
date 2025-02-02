@@ -1,13 +1,13 @@
 "use client";
 
-import Login from "@/components/Login";
-import { Posts } from "@/components/Post";
+import SignIn from "@/components/SignIn";
+import SignUp from "@/components/SignUp";
 
 export default function Home() {
   return (
-    <div className="p-20 flex flex-col items-center justify-center font-[family-name:var(--font-geist-sans)]">
-      <Login />
-      <Posts />
+    <div className="flex flex-col items-center justify-center font-[family-name:var(--font-geist-sans)] bg-rose-200">
+      <SignIn />
+      <SignUp />
     </div>
   );
 }
