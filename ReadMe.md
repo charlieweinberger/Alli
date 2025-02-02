@@ -6,7 +6,7 @@
 - [ ] Create Home Page
 - [ ] Create Chat Page
 - [ ] Make Sign In and Sign Up Page
-- [ ] Make Profile Page
+- [X] Make Profile Page
 - [ ] Make Settings Page
 - [ ] Make About Page
 - [ ] Practice App Page
