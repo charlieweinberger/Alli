@@ -1,0 +1,192 @@
+[EmotionEmbeddingItem(name='Admiration', score=0.058798648416996), 
+EmotionEmbeddingItem(name='Adoration', score=0.03875492140650749)
+, EmotionEmbeddingItem(name='Aesthetic Appreciation', score=0.051908522844314575), 
+EmotionEmbeddingItem(name='Amusement', score=0.0656389370560646), 
+, EmotionEmbeddingItem(name='Anxiety', score=0.19226112961769104), EmotionEmbeddingItem(name='Awe', score=0.062217362225055695), EmotionEmbeddingItem(name='Awkwardness', score=0.19065845012664795), EmotionEmbeddingItem(name='Boredom', score=0.6071502566337585), EmotionEmbeddingItem(name='Calmness', score=0.5317056775093079), EmotionEmbeddingItem(name='Concentration', score=0.6170659065246582), EmotionEmbeddingItem(name='Contemplation', score=0.24457232654094696), EmotionEmbeddingItem(name='Confusion', score=0.42859503626823425), EmotionEmbeddingItem(name='Contempt', score=0.1865893453359604), EmotionEmbeddingItem(name='Contentment', score=0.09613055735826492), EmotionEmbeddingItem(name='Craving', score=0.041376277804374695), EmotionEmbeddingItem(name='Determination', score=0.15679094195365906), EmotionEmbeddingItem(name='Disappointment', score=0.38666877150535583), EmotionEmbeddingItem(name='Disgust', score=0.09959377348423004), EmotionEmbeddingItem(name='Distress', score=0.22668319940567017), EmotionEmbeddingItem(name='Doubt', score=0.3610905408859253), EmotionEmbeddingItem(name='Ecstasy', score=0.016926908865571022), EmotionEmbeddingItem(name='Embarrassment', score=0.09720716625452042), EmotionEmbeddingItem(name='Empathic Pain', score=0.10158737003803253), EmotionEmbeddingItem(name='Entrancement', score=0.1230163425207138), EmotionEmbeddingItem(name='Envy', score=0.049982815980911255), EmotionEmbeddingItem(name='Excitement', score=0.030077224597334862), EmotionEmbeddingItem(name='Fear', score=0.09034646302461624), EmotionEmbeddingItem(name='Guilt', score=0.10893461108207703), EmotionEmbeddingItem(name='Horror', score=0.03577820956707001), EmotionEmbeddingItem(name='Interest', score=0.2531972825527191), EmotionEmbeddingItem(name='Joy', score=0.040729328989982605), EmotionEmbeddingItem(name='Love', score=0.04637344181537628), EmotionEmbeddingItem(name='Nostalgia', score=0.060103654861450195), EmotionEmbeddingItem(name='Pain', score=0.12521247565746307), EmotionEmbeddingItem(name='Pride', score=0.04874568432569504), EmotionEmbeddingItem(name='Realization', score=0.13721418380737305), EmotionEmbeddingItem(name='Relief', score=0.0483076274394989), EmotionEmbeddingItem(name='Romance', score=0.026293743401765823), EmotionEmbeddingItem(name='Sadness', score=0.32745182514190674), EmotionEmbeddingItem(name='Satisfaction', score=0.06414368748664856), EmotionEmbeddingItem(name='Desire', score=0.03381207212805748), EmotionEmbeddingItem(name='Shame', score=0.09040515869855881), EmotionEmbeddingItem(name='Surprise (negative)', score=0.051882605999708176), EmotionEmbeddingItem(name='Surprise (positive)', score=0.03276501223444939), EmotionEmbeddingItem(name='Sympathy', score=0.07006581872701645), EmotionEmbeddingItem(name='Tiredness', score=0.3500266373157501), EmotionEmbeddingItem(name='Triumph', score=0.017256610095500946)]
+emotion_names = [
+    'Admiration', 'Adoration', 'Aesthetic Appreciation', 'Amusement', 'Anger',
+    'Anxiety', 'Awe', 'Awkwardness', 'Boredom', 'Calmness', 'Concentration',
+    'Contemplation', 'Confusion', 'Contempt', 'Contentment', 'Craving',
+    'Determination', 'Disappointment', 'Disgust', 'Distress', 'Doubt',
+    'Ecstasy', 'Embarrassment', 'Empathic Pain', 'Entrancement', 'Envy',
+    'Excitement', 'Fear', 'Guilt', 'Horror', 'Interest', 'Joy', 'Love',
+    'Nostalgia', 'Pain', 'Pride', 'Realization', 'Relief', 'Romance',
+    'Sadness', 'Satisfaction', 'Desire', 'Shame', 'Surprise (negative)',
+    'Surprise (positive)', 'Sympathy', 'Tiredness', 'Triumph'
+]
+
+in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Priya\Downloads\Alli\server\server.py", line 53, in process_image_stream
+    image_data = await asyncio.wait_for(websocket.receive_bytes(), timeout=5.0)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\asyncio\tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\websockets.py", line 126, in receive_bytes
+    self._raise_on_disconnect(message)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\websockets.py", line 113, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (1001, '')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Priya\Downloads\Alli\server\server.py", line 108, in websocket_endpoint
+    await process_image_stream(websocket)
+  File "C:\Users\Priya\Downloads\Alli\server\server.py", line 90, in process_image_stream
+    await websocket.send_json({"error": str(e)})
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\websockets.py", line 175, in send_json  
+    await self.send({"type": "websocket.send", "text": text})
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\websockets.py", line 85, in send        
+    await self._send(message)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\_exception_handler.py", line 39, in sender
+    await send(message)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\uvicorn\protocols\websockets\websockets_impl.py", line 359, in asgi_send
+    raise RuntimeError(msg % message_type)
+RuntimeError: Unexpected ASGI message 'websocket.send', after sending 'websocket.close' or response already completed.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\uvicorn\protocols\websockets\websockets_impl.py", line 243, in run_asgi
+    result = await self.app(self.scope, self.asgi_receive, self.asgi_send)  # type: ignore[func-returns-value]        
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\fastapi\applications.py", line 1054, in __call__  
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\applications.py", line 112, in __call__ 
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\middleware\errors.py", line 152, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\middleware\cors.py", line 77, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\middleware\cors.py", line 77, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\routing.py", line 715, in __call__      
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\routing.py", line 735, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\routing.py", line 362, in handle        
+    await self.app(scope, receive, send)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\routing.py", line 95, in app
+    await wrap_app_handling_exceptions(app, session)(scope, receive, send)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\routing.py", line 93, in app
+    await func(session)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\fastapi\routing.py", line 383, in app
+    await dependant.call(**solved_result.values)
+  File "C:\Users\Priya\Downloads\Alli\server\server.py", line 112, in websocket_endpoint
+    await websocket.close()
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\websockets.py", line 180, in close      
+    await self.send({"type": "websocket.close", "code": code, "reason": reason or ""})
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\websockets.py", line 85, in send        
+    await self._send(message)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\_exception_handler.py", line 39, in sender
+    await send(message)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\uvicorn\protocols\websockets\websockets_impl.py", line 359, in asgi_send
+    raise RuntimeError(msg % message_type)
+RuntimeError: Unexpected ASGI message 'websocket.close', after sending 'websocket.close' or response already completed.
+WARNING:root:WebSocket receive timeout
+WARNING:root:WebSocket receive timeout
+WARNING:root:WebSocket receive timeout
+ERROR:root:Error in image processing: (1001, '')
+INFO:     connection closed
+INFO:     ('127.0.0.1', 64555) - "WebSocket /ws" [accepted]
+INFO:     connection open
+INFO:     ('127.0.0.1', 64557) - "WebSocket /ws" [accepted]
+INFO:     connection open
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "C:\Users\Priya\Downloads\Alli\server\server.py", line 53, in process_image_stream
+    image_data = await asyncio.wait_for(websocket.receive_bytes(), timeout=5.0)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\asyncio\tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\websockets.py", line 126, in receive_bytes
+    self._raise_on_disconnect(message)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\websockets.py", line 113, in _raise_on_disconnect
+    raise WebSocketDisconnect(message["code"], message.get("reason"))
+starlette.websockets.WebSocketDisconnect: (1001, '')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Priya\Downloads\Alli\server\server.py", line 108, in websocket_endpoint
+    await process_image_stream(websocket)
+  File "C:\Users\Priya\Downloads\Alli\server\server.py", line 90, in process_image_stream
+    await websocket.send_json({"error": str(e)})
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\websockets.py", line 175, in send_json  
+    await self.send({"type": "websocket.send", "text": text})
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\websockets.py", line 85, in send        
+    await self._send(message)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\_exception_handler.py", line 39, in sender
+    await send(message)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\uvicorn\protocols\websockets\websockets_impl.py", line 359, in asgi_send
+    raise RuntimeError(msg % message_type)
+RuntimeError: Unexpected ASGI message 'websocket.send', after sending 'websocket.close' or response already completed.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\uvicorn\protocols\websockets\websockets_impl.py", line 243, in run_asgi
+    result = await self.app(self.scope, self.asgi_receive, self.asgi_send)  # type: ignore[func-returns-value]        
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\fastapi\applications.py", line 1054, in __call__  
+    await super().__call__(scope, receive, send)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\applications.py", line 112, in __call__ 
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\middleware\errors.py", line 152, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\middleware\cors.py", line 77, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\middleware\cors.py", line 77, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\routing.py", line 715, in __call__      
+    await self.middleware_stack(scope, receive, send)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\routing.py", line 735, in app
+    await route.handle(scope, receive, send)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\routing.py", line 362, in handle        
+    await self.app(scope, receive, send)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\routing.py", line 95, in app
+    await wrap_app_handling_exceptions(app, session)(scope, receive, send)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\routing.py", line 93, in app
+    await func(session)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\fastapi\routing.py", line 383, in app
+    await dependant.call(**solved_result.values)
+  File "C:\Users\Priya\Downloads\Alli\server\server.py", line 112, in websocket_endpoint
+    await websocket.close()
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\websockets.py", line 180, in close      
+    await self.send({"type": "websocket.close", "code": code, "reason": reason or ""})
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\websockets.py", line 85, in send        
+    await self._send(message)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\starlette\_exception_handler.py", line 39, in sender
+    await send(message)
+  File "C:\Users\Priya\Downloads\Alli\server\venv\Lib\site-packages\uvicorn\protocols\websockets\websockets_impl.py", line 359, in asgi_send
+    raise RuntimeError(msg % message_type)
+RuntimeError: Unexpected ASGI message
