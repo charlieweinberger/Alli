@@ -24,8 +24,9 @@ export const Post = ({ post }: Props) => {
     <div className="bg-white p-4 rounded-lg shadow-md">
       {sender && (
         <div
-          className="flex items-center gap-3 mb-4 cursor-pointer"
-          onClick={() => setShowProfile(!showProfile)}
+          className="flex items-center gap-3 mb-4 cursor-pointer relative"
+          onMouseEnter={() => setShowProfile(true)}
+          onMouseLeave={() => setShowProfile(false)}
         >
           <img
             src={`https://randomfox.ca/images/${Math.floor(
@@ -35,17 +36,25 @@ export const Post = ({ post }: Props) => {
             width={40}
             height={40}
             className="w-10 h-10 rounded-full object-cover"
+            loading="lazy"
           />
           <div>
             <p className="font-medium">{sender.name}</p>
             <p className="text-gray-500">@{sender.username}</p>
           </div>
-        </div>
-      )}
-      {showProfile && sender && (
-        <div className="mb-4 p-3 bg-gray-50 rounded">
-          <p>Gender Identitiy: {sender.genderIdentity}</p>
-          <p>Sexualizing: {sender.sexuality}</p>
+          {showProfile && sender && (
+            <div
+              className="absolute z-10 p-3 bg-white shadow-lg rounded border border-gray-200"
+              style={{
+                position: "fixed",
+                transform: "translate(50px, 60px)",
+                pointerEvents: "none",
+              }}
+            >
+              <p>Gender Identity: {sender.genderIdentity}</p>
+              <p>Sexuality: {sender.sexuality}</p>
+            </div>
+          )}
         </div>
       )}
       <h2 className="text-xl font-bold text-gray-800">{post.title}</h2>
