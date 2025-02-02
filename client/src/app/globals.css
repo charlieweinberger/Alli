@@ -86,7 +86,6 @@ body {
     @apply bg-background text-foreground;
   }
 }
-
 @keyframes slide {
   0% {
     transform: translateX(-100%);
@@ -94,4 +93,8 @@ body {
   100% {
     transform: translateX(100vw);
   }
+}
+
+.animate-slide {
+  animation: slide 20s linear infinite;
 }

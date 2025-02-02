@@ -19,9 +19,8 @@ export default function Clouds() {
         // Randomize cloud size, speed, and delay
         const size = Math.floor(Math.random() * 200) + 100; // 100px to 300px
         const duration = Math.floor(Math.random() * 200) + 10; // 10s to 30s
-        const delay = Math.floor(Math.random() * 20); // 0s to 20s delay
         const top = Math.floor(Math.random() * 100); // Random vertical position
-
+        const left = Math.floor(Math.random() * 100); // Random horizontal position
         return (
           <Image
             key={cloud}
@@ -32,11 +31,13 @@ export default function Clouds() {
             height={size}
             style={{
               top: `${top}%`,
-              animation: `slide ${duration + 5}s linear ${delay}s infinite alternate`,
+              left: `${left}%`,
+              animation: `slide ${
+                duration + 5
+              }s linear infinite alternate`,
             }}
           />
         );
-
       })}
     </div>
   );

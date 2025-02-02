@@ -41,11 +41,11 @@ const EmotionalAnalysis = ({ data }: EmotionalAnalysisProps) => {
     ws.onmessage = (event) => {
       try {
         const response = JSON.parse(event.data);
-        if (response.emotions) {
-          if (response.emotions[2].score * 100 > 50) {
+        if (response.emotions && response.emotions.length > 2) {
+          if (response.emotions[2].score * 100 > 30) {
             toast({
               title: "Emotion Detected",
-              description: "You Seem Distressed Consider taking a break!",
+              description: "You Seem Distressed, Try doing it again but a bit calmer!",
               variant: "destructive",
             });
           }
@@ -118,40 +118,48 @@ const EmotionalAnalysis = ({ data }: EmotionalAnalysisProps) => {
   }, [timer, data]);
 
   return (
-    <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-lg shadow-lg z-50 max-w-md w-full">
-      <h2 className="text-xl font-bold mb-4">Emotion Analysis</h2>
+    <div className="fixed top-4 left-72 transform -translate-x-1/2 backdrop-blur-lg bg-black/80 p-6 rounded-2xl shadow-lg z-50 max-w-md w-full border border-gray-200">
+      <h2 className="text-xl font-bold mb-4 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent">
+        Emotional Spectrum
+      </h2>
 
       {isProcessing && (
-        <div className="absolute top-0 right-0 mt-2 mr-2">
-          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-900"></div>
+        <div className="absolute top-0 right-0 mt-4 mr-4">
+          <div className="animate-spin rounded-full h-5 w-5 border-4 border-rainbow-gradient"></div>
         </div>
       )}
       <div>
         {message?.error ? (
-          <div className="text-red-500 p-2 rounded">Error: {message.error}</div>
+          <div className="text-red-500 p-3 rounded-xl bg-red-50/50">
+            Error: {message.error}
+          </div>
         ) : message?.emotions ? (
-          <div className="space-y-2">
+          <div className="space-y-3">
             {message.emotions.map((emotion, index) => (
               <div key={index} className="flex justify-between items-center">
-                <span className="font-medium">{emotion.name}</span>
-                <div className="w-24 bg-gray-200 rounded-full h-2">
+                <span className="font-medium text-gray-50">
+                  {emotion.name}
+                </span>
+                <div className="w-32 bg-gray-100 rounded-full h-3">
                   <div
-                    className="bg-blue-600 h-2 rounded-full transition-all duration-300 ease-in-out"
+                    className="bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 h-3 rounded-full transition-all duration-300 ease-in-out"
                     style={{ width: `${emotion.score * 100}%` }}
                   ></div>
                 </div>
-                <span className="text-sm">
+                <span className="text-sm font-medium text-gray-600">
                   {(emotion.score * 100).toFixed(1)}%
                 </span>
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-gray-500">No analysis data available</p>
+          <p className="text-gray-500 text-center italic">
+            Awaiting emotional data...
+          </p>
         )}
         {message?.face_detected !== undefined && (
-          <p className="mt-2 text-sm">
-            Face detected: {message.face_detected ? "Yes" : "No"}
+          <p className="mt-3 text-sm font-medium text-gray-600 bg-gray-50/50 p-2 rounded-xl">
+            Face detected: {message.face_detected ? "✨ Yes" : "Not yet"}
             {message.face_probability &&
               ` (${(message.face_probability * 100).toFixed(1)}%)`}
           </p>

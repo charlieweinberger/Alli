@@ -5,7 +5,7 @@ import "./globals.css";
 import { AuthProvider } from "@/components/AuthProvider";
 import Navbar from "../components/Navbar";
 import Clouds from "../components/Cloud";
-
+import { Toaster } from "../components/ui/toaster";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,17 +32,13 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
+          <Toaster />
           <div className="flex flex-col">
             <Navbar />
-            <div className="fixed inset-0 -z-10 flex gap-4 overflow-hidden opacity-20 bg-rose-700">
+            <div className="fixed inset-0 -z-10 overflow-hidden opacity-40 bg-rose-700">
               <Clouds />
             </div>
-            <main>
-              <div className=" bg-rose-700 fixed inset-0 -z-10 flex gap-4 overflow-hidden opacity-20">
-                <Clouds />
-              </div>
-              {children}
-            </main>
+            <main>{children}</main>
           </div>
         </body>
       </AuthProvider>
