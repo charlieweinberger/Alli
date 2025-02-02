@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuth } from "./AuthProvider";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,9 +8,12 @@ import {
   MessageCircle,
   Volume2,
   CircleUserRound,
+  LogOut
 } from "lucide-react";
 
 export default function Navbar() {
+
+  const auth = useAuth();
   const router = useRouter();
 
   return (
@@ -51,6 +55,14 @@ export default function Navbar() {
           }}
         >
           <CircleUserRound />
+        </Button>
+        <Button
+          variant="ghost"
+          onClick={() => {
+            auth.signOut();
+          }}
+        >
+          <LogOut />
         </Button>
       </div>
     </div>
