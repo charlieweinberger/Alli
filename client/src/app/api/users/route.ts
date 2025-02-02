@@ -9,7 +9,17 @@ export async function POST(request: Request) {
   return NextResponse.json(newUser, { status: 201 });
 }
 
-export async function GET() {
+export async function GET(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  const userId = parseInt(params.id);
+  if (userId) {
+    const user = await db.query.users.findFirst({
+      where: eq(users.userId, userId),
+    });
+    return NextResponse.json(user);
+  }
   const allUsers = await db.query.users.findMany();
   return NextResponse.json(allUsers);
 }

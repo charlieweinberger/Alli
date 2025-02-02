@@ -8,7 +8,17 @@ export async function POST(request: Request) {
   const newConnection = await db.insert(connection).values(body).returning();
   return NextResponse.json(newConnection, { status: 201 });
 }
-export async function GET() {
+export async function GET(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  if (params?.id) {
+    const connectId = parseInt(params.id);
+    const conn = await db.query.connection.findFirst({
+      where: eq(connection.connectId, connectId),
+    });
+    return NextResponse.json(conn);
+  }
   const allConnections = await db.query.connection.findMany();
   return NextResponse.json(allConnections);
 }
