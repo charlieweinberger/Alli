@@ -5,7 +5,10 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const newPost = await db.insert(post).values(body).returning();
+  const parsedBody = { ...body, createdAt: new Date(body.createdAt) };
+  console.log(parsedBody);
+  const newPost = await db.insert(post).values(parsedBody).returning();
+
   return NextResponse.json(newPost, { status: 201 });
 }
 

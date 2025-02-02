@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Post as PostType, User } from "../lib/types";
 // import { useAuth } from "./AuthProvider";
 import Image from "next/image";
+import { useAuth } from "./AuthProvider";
 type Props = {
   post: PostType;
 };
@@ -87,5 +88,46 @@ export const Posts = () => {
         <Post key={post.postId} post={post} />
       ))}
     </div>
+  );
+};
+
+export const MakePost = () => {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const { user } = useAuth();
+  if (!user) return null;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const response = await fetch("/api/posts", {
+      method: "POST",
+      body: JSON.stringify({
+        title,
+        description,
+        userId: user.userId,
+        createdAt: new Date(),
+      }),
+    });
+    if (response.ok) {
+      setTitle("");
+      setDescription("");
+    }
+  };
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      <input
+        type="text"
+        placeholder="Title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        className="p-2 border border-gray-200 rounded"
+      />
+      <textarea
+        placeholder="Description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        className="p-2 border border-gray-200 rounded"
+      />
+      <button className="bg-blue-500 text-white p-2 rounded">Post</button>
+    </form>
   );
 };

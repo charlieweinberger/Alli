@@ -15,6 +15,13 @@
       "when": 1738468871257,
       "tag": "0001_brave_vampiro",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1738477549657,
+      "tag": "0002_curvy_mariko_yashida",
+      "breakpoints": true
     }
   ]
 }

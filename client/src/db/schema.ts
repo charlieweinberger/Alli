@@ -25,7 +25,7 @@ export const post = pgTable("Post", {
   userId: integer("userId")
     .notNull()
     .references(() => users.userId),
-  postId: integer("postId").primaryKey(),
+  postId: serial("postId").primaryKey(),
   title: text("title"),
   description: text("description"),
   createdAt: timestamp("created_at").defaultNow(),
