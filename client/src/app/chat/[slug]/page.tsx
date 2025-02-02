@@ -133,7 +133,7 @@ function Page() {
 
     try {
       const messagesResponse = await fetch(
-        `/api/messages/?currentUserID=${currentUserID}&respondingTo=${respondingTo}`
+        `/api/chat/?currentUserID=${currentUserID}&respondingTo=${respondingTo}`
       );
       if (!messagesResponse.ok) throw new Error("Failed to fetch messages");
 

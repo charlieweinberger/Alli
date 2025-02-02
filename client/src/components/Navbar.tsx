@@ -28,7 +28,7 @@ export default function Navbar() {
         <Button
           variant="ghost"
           onClick={() => {
-            router.push("/chat");
+            router.push("/chat/1");
           }}
         >
           <MessageCircle />
