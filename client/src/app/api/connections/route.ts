@@ -8,12 +8,12 @@ export async function POST(request: Request) {
   const newConnection = await db.insert(connection).values(body).returning();
   return NextResponse.json(newConnection, { status: 201 });
 }
-export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
-  if (params?.id) {
-    const connectId = parseInt(params.id);
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get("id");
+  const connectId = id ? parseInt(id) : null;
+
+  if (connectId) {
     const conn = await db.query.connection.findFirst({
       where: eq(connection.connectId, connectId),
     });

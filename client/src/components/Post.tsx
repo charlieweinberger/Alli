@@ -13,7 +13,7 @@ export const Post = ({ post }: Props) => {
 
   useEffect(() => {
     const fetchSender = async () => {
-      const response = await fetch(`/api/users/${post.userId}`);
+      const response = await fetch(`/api/users?id=${post.userId}`);
       const data = await response.json();
       setSender(data);
     };
@@ -27,12 +27,14 @@ export const Post = ({ post }: Props) => {
           className="flex items-center gap-3 mb-4 cursor-pointer"
           onClick={() => setShowProfile(!showProfile)}
         >
-          <Image
-            src={`https://api.dicebear.com/6.x/avatars/svg/${sender.username}`}
+          <img
+            src={`https://randomfox.ca/images/${Math.floor(
+              Math.random() * 51
+            )}.jpg`}
             alt="Profile"
             width={40}
             height={40}
-            className="w-10 h-10 rounded-full"
+            className="w-10 h-10 rounded-full object-cover"
           />
           <div>
             <p className="font-medium">{sender.name}</p>
@@ -48,6 +50,27 @@ export const Post = ({ post }: Props) => {
       )}
       <h2 className="text-xl font-bold text-gray-800">{post.title}</h2>
       <p className="text-gray-600">{post.description}</p>
+    </div>
+  );
+};
+
+export const Posts = () => {
+  const [posts, setPosts] = useState<PostType[]>([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const response = await fetch("/api/posts");
+      const data = await response.json();
+      setPosts(data);
+    };
+    fetchPosts();
+  }, []);
+
+  return (
+    <div>
+      {posts.map((post) => (
+        <Post key={post.postId} post={post} />
+      ))}
     </div>
   );
 };

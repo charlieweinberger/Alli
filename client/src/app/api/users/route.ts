@@ -9,11 +9,11 @@ export async function POST(request: Request) {
   return NextResponse.json(newUser, { status: 201 });
 }
 
-export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
-  const userId = parseInt(params.id);
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get("id");
+  const userId = id ? parseInt(id) : null;
+
   if (userId) {
     const user = await db.query.users.findFirst({
       where: eq(users.userId, userId),
