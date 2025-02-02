@@ -8,6 +8,7 @@ import React, {
   useOptimistic,
   useTransition,
 } from "react";
+import {Loader} from 'lucide-react';
 import { Connection, Message } from "@/lib/types";
 import { useConnections } from "../layout";
 
@@ -37,8 +38,8 @@ const MessageList = React.memo(
             <div
               className={`px-4 py-2 rounded-lg ${
                 message.senderId === currentUserID
-                  ? "bg-blue-500 text-white"
-                  : "bg-green-500 text-white"
+                  ? "bg-rose-500 text-white"
+                  : "bg-white text-rose-400"
               }`}
             >
               {message.content}
@@ -87,25 +88,31 @@ const ChatContainer = ({
     };
 
     startTransition(() => {
-      // Add optimistic message
-      addOptimisticMessage(tempMessage);
+      // Add optimistic message only if the sender is the current user
+      if (tempMessage.senderId === currentUserID) {
+        addOptimisticMessage(tempMessage);
+      }
     });
 
     try {
       await addMessage(content);
     } catch (error) {
       console.error("Failed to send message:", error);
-      // Note: The error state will be handled by the parent component
-      // and the optimistic state will be reconciled with the server state
     }
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-screen">
+      {/* Navbar (if any) */}
+      {/* <Navbar /> */}
+
+      {/* Scrollable Message List */}
       <div className="flex-1 overflow-y-auto p-4">
         <MessageList messages={messages} currentUserID={currentUserID} />
       </div>
-      <div className="p-4 border-t">
+
+      {/* Fixed Message Input Area */}
+      <div className="p-4 border-t bg-white">
         <SendMessage onSend={handleSendMessage} disabled={isPending} />
       </div>
     </div>
@@ -161,7 +168,7 @@ function Page() {
       throw new Error("Invalid user or connection");
     }
 
-    const response = await fetch("/api/messages", {
+    const response = await fetch("/api/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -205,6 +212,7 @@ function Page() {
   );
 }
 
+
 const SendMessage = React.memo(
   ({
     onSend,
@@ -244,9 +252,9 @@ const SendMessage = React.memo(
         <button
           type="submit"
           disabled={isSending || disabled}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50"
+          className="px-4 py-2 bg-rose-500 text-white rounded-lg hover:bg-rose-600 disabled:opacity-50 flex items-center justify-center"
         >
-          {isSending ? "Sending..." : "Send"}
+          {isSending ? <Loader className="animate-spin" size={18} /> : "Send"}
         </button>
       </form>
     );
@@ -254,5 +262,6 @@ const SendMessage = React.memo(
 );
 
 SendMessage.displayName = "SendMessage";
+
 
 export default Page;
