@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useAuth } from "@/components/AuthProvider";
 import { User } from "@/lib/types";
+import { Button } from "@/components/ui/button";
 
 function Profile({ user }: { user: User }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -46,7 +47,7 @@ function Profile({ user }: { user: User }) {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 border border-rose-200 rounded-lg shadow-sm bg-white">
+    <div className="max-w-2xl mx-auto m-4 p-6 border border-rose-200 rounded-lg shadow-sm bg-white">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-800">{editedUser.name}</h1>
         <Button onClick={handleEdit}>
@@ -56,21 +57,21 @@ function Profile({ user }: { user: User }) {
       <div className="space-y-4">
         {/* TODO: turn this into a .map() */}
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-rose-700">Username:</label>
+          <label className="block text-sm font-medium text-gray-700">Username:</label>
           {isEditing ? (
             <input
               type="text"
               name="username"
               value={editedUser.username}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-rose-500 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"
+              className="w-full px-3 py-2 border border-rose-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"
             />
           ) : (
             <p className="text-gray-900">{editedUser.username}</p>
           )}
         </div>
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-rose-700">Pronouns:</label>
+          <label className="block text-sm font-medium text-gray-700">Pronouns:</label>
           {isEditing ? (
             <input
               type="text"
@@ -92,7 +93,7 @@ function Profile({ user }: { user: User }) {
                 name="genderIdentity"
                 value={editedUser.genderIdentity}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-rose-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-rose-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"
               />
             ) : (
               <p className="text-gray-900">{editedUser.genderIdentity}</p>
@@ -101,14 +102,14 @@ function Profile({ user }: { user: User }) {
         )}
         {editedUser.sexuality && (
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">Sexuality:</label>
+            <label className="block text-sm font-medium text-gray-700">Sexual Orientation:</label>
             {isEditing ? (
               <input
                 type="text"
                 name="sexuality"
                 value={editedUser.sexuality}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-rose-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-rose-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"
               />
             ) : (
               <p className="text-gray-900">{editedUser.sexuality}</p>
@@ -117,13 +118,13 @@ function Profile({ user }: { user: User }) {
         )}
         {editedUser.bio && (
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-rose-700">Bio:</label>
+            <label className="block text-sm font-medium text-gray-700">Bio:</label>
             {isEditing ? (
               <textarea
                 name="bio"
                 value={editedUser.bio}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-rose-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"
                 rows={4}
               />
             ) : (
@@ -133,14 +134,14 @@ function Profile({ user }: { user: User }) {
         )}
         {editedUser.hobbies && (
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-rose-700">Hobbies:</label>
+            <label className="block text-sm font-medium text-gray-700">Hobbies:</label>
             {isEditing ? (
               <input
                 type="text"
                 name="hobbies"
                 value={editedUser.hobbies}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-rose-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"
               />
             ) : (
               <p className="text-gray-900">{editedUser.hobbies}</p>
@@ -149,14 +150,14 @@ function Profile({ user }: { user: User }) {
         )}
         {editedUser.major && (
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-rose-700">Major:</label>
+            <label className="block text-sm font-medium text-gray-700">Major:</label>
             {isEditing ? (
               <input
                 type="text"
                 name="major"
                 value={editedUser.major}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-rose-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"
               />
             ) : (
               <p className="text-gray-900">{editedUser.major}</p>
@@ -165,14 +166,14 @@ function Profile({ user }: { user: User }) {
         )}
         {editedUser.age && (
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-rose-700">Age:</label>
+            <label className="block text-sm font-medium text-gray-700">Age:</label>
             {isEditing ? (
               <input
                 type="number"
                 name="age"
                 value={editedUser.age}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-rose-300 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"
               />
             ) : (
               <p className="text-gray-900">{editedUser.age}</p>
@@ -181,12 +182,11 @@ function Profile({ user }: { user: User }) {
         )}
       </div>
       {isEditing && (
-          <button
-              onClick={handleSave}
-              className="mt-6 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
-          >
-              Save Changes
-          </button>
+        <div className="mt-4">
+          <Button onClick={handleSave}>
+            Save Changes
+          </Button>
+        </div>
       )}
     </div>
   );
