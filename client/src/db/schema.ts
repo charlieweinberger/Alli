@@ -1,51 +1,58 @@
-import { pgTable, serial, text, timestamp, boolean, varchar, integer, enum as pgEnum} from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  serial,
+  text,
+  timestamp,
+  boolean,
+  integer,
+} from "drizzle-orm/pg-core";
 
-export const users = pgTable('User', {
-  userId: serial('userId').primaryKey(),
-  username: text('username').notNull(),
+export const users = pgTable("User", {
+  userId: serial("userId").primaryKey(),
+  username: text("username").notNull(),
   // password: text('password').notNull(),
-  name: text('name').notNull(),
-  pronouns: text('pronouns').notNull(), 
-  genderIdentity: text('genderIdentity'),
-  sexuality: text('sexuality'),
-  bio: text('bio'),
-  hobbies: text('hobbies'),
-  major: text('major'), 
-  age: integer('age'),
+  name: text("name").notNull(),
+  pronouns: text("pronouns").notNull(),
+  genderIdentity: text("genderIdentity"),
+  sexuality: text("sexuality"),
+  bio: text("bio"),
+  hobbies: text("hobbies"),
+  major: text("major"),
+  age: integer("age"),
 });
 
-export const post = pgTable('Post', {
-  userId: integer('userId')
+export const post = pgTable("Post", {
+  userId: integer("userId")
     .notNull()
     .references(() => users.userId),
-    postId: integer('postId').primaryKey(), 
-  title: text('title'),
-  description: text('description'),
-  createdAt: timestamp('created_at').defaultNow()
+  postId: integer("postId").primaryKey(),
+  title: text("title"),
+  description: text("description"),
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
-export const connection = pgTable('connections',{
-  connectId: serial('connectId').primaryKey(),
-  user: integer('poster')
+export const connection = pgTable("connections", {
+  connectId: serial("connectId").primaryKey(),
+  user: integer("poster")
     .notNull()
     .references(() => users.userId),
-  responder: integer('responder')
+  responder: integer("responder")
     .notNull()
     .references(() => users.userId),
 });
 
-export const messages = pgTable('messages', {
-  id: serial('id').primaryKey(),
-  connectionId: integer('connection_id')
+export const messages = pgTable("messages", {
+  id: serial("id").primaryKey(),
+  connectionId: integer("connection_id")
     .notNull()
-    .references(() => connection.id),
-  senderId: integer('sender_id')
-    .notNull()
-    .references(() => users.userId), 
-  receiverId: integer('receiver_id')
+    .references(() => connection.connectId),
+  senderId: integer("sender_id")
     .notNull()
     .references(() => users.userId),
-  content: text('content').notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
-  isRead: boolean('is_read').default(false),
+  receiverId: integer("receiver_id")
+    .notNull()
+    .references(() => users.userId),
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  isRead: boolean("is_read").default(false),
 });
