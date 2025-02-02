@@ -73,17 +73,20 @@ const ProfileImage = () => {
 export const Posts = () => {
   const [posts, setPosts] = useState<PostType[]>([]);
 
+  const fetchPosts = async () => {
+    const response = await fetch("/api/posts");
+    const data = await response.json();
+    setPosts(data);
+  };
+
   useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await fetch("/api/posts");
-      const data = await response.json();
-      setPosts(data);
-    };
     fetchPosts();
   }, []);
 
   return (
     <div>
+      <MakePost onPostCreated={fetchPosts} />
+
       {posts.map((post) => (
         <Post key={post.postId} post={post} />
       ))}
@@ -91,11 +94,12 @@ export const Posts = () => {
   );
 };
 
-export const MakePost = () => {
+export const MakePost = ({ onPostCreated }: { onPostCreated: () => void }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const { user } = useAuth();
   if (!user) return null;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const response = await fetch("/api/posts", {
@@ -110,8 +114,10 @@ export const MakePost = () => {
     if (response.ok) {
       setTitle("");
       setDescription("");
+      onPostCreated(); // Fetch posts again after successful creation
     }
   };
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <input
