@@ -18,7 +18,6 @@ export default function SignIn() {
     const user = users.find((u: User) => u.username === username);
     if (user) {
       auth.signIn(user);
-      // make user go to /posts
       router.push("/posts");
     } else {
       alert("User not found");

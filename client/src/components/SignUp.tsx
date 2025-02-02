@@ -3,6 +3,7 @@ import { useAuth } from "./AuthProvider";
 import { User } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface inputType {
   name: string,
@@ -79,6 +80,7 @@ export default function SignUp() {
   });
 
   const auth = useAuth();
+  const router = useRouter();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -104,7 +106,8 @@ export default function SignUp() {
 
         if (response.ok) {
           const user = await response.json();
-          auth.signIn(user);
+          auth.signIn(user[0]);
+          router.push("/posts");
         } else {
           alert("Error creating user");
         }
