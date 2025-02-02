@@ -8,7 +8,7 @@ import React, {
   useOptimistic,
   useTransition,
 } from "react";
-import {Loader} from 'lucide-react';
+import { Loader } from 'lucide-react';
 import { Connection, Message } from "@/lib/types";
 import { useConnections } from "../layout";
 
@@ -102,7 +102,7 @@ const ChatContainer = ({
   };
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-full">
       {/* Navbar (if any) */}
       {/* <Navbar /> */}
 
@@ -112,29 +112,27 @@ const ChatContainer = ({
       </div>
 
       {/* Fixed Message Input Area */}
-      <div className="p-4 border-t bg-white">
+      <div className="p-4 border-t bg-pink-50">
         <SendMessage onSend={handleSendMessage} disabled={isPending} />
       </div>
     </div>
   );
 };
 
-function Page() {
+export default function Page() {
   const { user } = useAuth();
   const currentUserID = user?.userId;
   const respondingTo = useParams().slug;
   const { connections } = useConnections();
   const currentConnection = connections.find(
-    (conn) =>
-      conn.responder === Number(respondingTo) && conn.user === currentUserID
+    (conn) => conn.responder === Number(respondingTo) && conn.user === currentUserID
   );
 
   const [messages, setMessages] = React.useState<Message[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
-  if (!isPending) {
-  }
+  if (!isPending) {}
   const fetchData = useCallback(async () => {
     if (!currentUserID || !respondingTo) return;
 
@@ -198,9 +196,19 @@ function Page() {
     return () => clearInterval(pollInterval);
   }, [fetchData]);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!currentConnection) return <div>Connection not found</div>;
+  if (isLoading || error || !currentConnection) {
+
+    const message = isLoading ? "Loading..." : (error ? `Error: ${error}` : "Select a user from the sidebar to start a chat.");
+
+    return (
+      <div className="flex items-center justify-center h-full">
+        <div className="flex items-center justify-center bg-white p-6 rounded-lg shadow-md w-48">
+          {message}
+        </div>
+      </div>
+    );
+
+  }
 
   return (
     <ChatContainer
@@ -211,7 +219,6 @@ function Page() {
     />
   );
 }
-
 
 const SendMessage = React.memo(
   ({
@@ -246,7 +253,7 @@ const SendMessage = React.memo(
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Type a message..."
-          className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500"
           disabled={isSending || disabled}
         />
         <button
@@ -262,6 +269,3 @@ const SendMessage = React.memo(
 );
 
 SendMessage.displayName = "SendMessage";
-
-
-export default Page;

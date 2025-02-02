@@ -1,18 +1,16 @@
 "use client";
-import { useEffect, useState } from "react";
+
+import { useEffect, useState, createContext, useContext } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Connection, User } from "@/lib/types";
 import { useAuth } from "@/components/AuthProvider";
 
-export default function ChatLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function ChatLayout({ children, }: { children: React.ReactNode }) {
   return (
     <ConnectionProvider>
-      <div className="flex">
-        <aside className="w-64 h-screen bg-gray-100 p-4">
+      <div className="flex h-[calc(100vh-56px)]">
+        <aside className="w-64 bg-rose-100 p-4">
           <h2 className="text-xl font-bold mb-4">Connections</h2>
           <People />
         </aside>
@@ -22,10 +20,7 @@ export default function ChatLayout({
   );
 }
 
-import { createContext, useContext } from "react";
-import { usePathname } from "next/navigation";
-
-const People = () => {
+function People() {
   const { responders } = useConnections();
   const pathName = usePathname();
   return (
@@ -37,8 +32,8 @@ const People = () => {
               href={`/chat/${user.userId}`}
               className={`p-2 rounded block ${
                 pathName === `/chat/${user.userId}`
-                  ? "bg-gray-300"
-                  : "hover:bg-gray-200"
+                  ? "bg-rose-300"
+                  : "hover:bg-rose-300"
               }`}
             >
               {user.name}
@@ -48,7 +43,7 @@ const People = () => {
       </ul>
     </nav>
   );
-};
+}
 
 type ConnectionContextType = {
   connections: Connection[];
