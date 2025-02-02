@@ -7,7 +7,6 @@ export default function ProfilePage() {
     console.log(user);
     return (
       <div>
-        <h1>Profile Page</h1>
         <Profile user={user!} /> {/* Use the Profile component */}
       </div>
     );
