@@ -9,7 +9,6 @@ interface inputType {
   name: string,
   placeholder: string,
   type: string,
-  required: boolean,
 }
 
 const inputColumn1: inputType[] = [
@@ -17,25 +16,21 @@ const inputColumn1: inputType[] = [
     name: "username",
     placeholder: "Username",
     type: "text",
-    required: true,
   },
   {
     name: "pronouns",
     placeholder: "Pronouns",
     type: "text",
-    required: true,
   },
   {
     name: "genderIdentity",
     placeholder: "Gender Identity",
     type: "text",
-    required: false,
   },
   {
     name: "hobbies",
     placeholder: "Hobbies",
     type: "text",
-    required: false,
   },
 ];
 const inputColumn2: inputType[] = [
@@ -43,25 +38,21 @@ const inputColumn2: inputType[] = [
     name: "name",
     placeholder: "Full Name",
     type: "text",
-    required: true,
   },
   {
     name: "age",
     placeholder: "Age",
     type: "number",
-    required: false,
   },
   {
     name: "sexuality",
     placeholder: "Sexual Orientation",
     type: "text",
-    required: false,
   },
   {
     name: "major",
     placeholder: "Major",
     type: "text",
-    required: false,
   }
 ];
 
@@ -130,7 +121,7 @@ export default function SignUp() {
         <div className="flex flex-col gap-4">
           <div className="flex flex-row gap-4">
             <div className="flex flex-col gap-4">
-              {inputColumn1.map(({ name, placeholder, type, required }: inputType, index: number) => {
+              {inputColumn1.map(({ name, placeholder, type }: inputType, index: number) => {
                 return (
                   <div key={index}>
                     <input
@@ -139,7 +130,7 @@ export default function SignUp() {
                       value={formData[name as keyof User]}
                       onChange={handleChange}
                       placeholder={placeholder}
-                      required={required}
+                      required
                       className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"
                     />
                   </div>
@@ -147,7 +138,7 @@ export default function SignUp() {
               })}
             </div>
             <div className="flex flex-col gap-4">
-              {inputColumn2.map(({ name, placeholder, type, required }: inputType, index: number) => {
+              {inputColumn2.map(({ name, placeholder, type }: inputType, index: number) => {
                 return (
                   <div key={index}>
                     <input
@@ -156,7 +147,7 @@ export default function SignUp() {
                       value={formData[name as keyof User]}
                       onChange={handleChange}
                       placeholder={placeholder}
-                      required={required}
+                      required
                       className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500"
                     />
                   </div>
