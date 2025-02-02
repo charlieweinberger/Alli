@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { Post as PostType, User } from "../lib/types";
-// import { useAuth } from "./AuthProvider";
 import Image from "next/image";
 import { useAuth } from "./AuthProvider";
+import { useRouter } from "next/navigation";
+
 type Props = {
   post: PostType;
 };
 
 export const Post = ({ post }: Props) => {
-  //   const user = useAuth();
+  const user = useAuth();
   const [sender, setSender] = useState<User | null>(null);
   const [showProfile, setShowProfile] = useState(false);
 
@@ -51,9 +52,36 @@ export const Post = ({ post }: Props) => {
       )}
       <h2 className="text-xl font-bold text-gray-800">{post.title}</h2>
       <p className="text-gray-600">{post.description}</p>
+      {/* This Wont Show up if user is not loggedin */}
+      {sender && user && user.user && user.user?.userId !== post.userId && (
+        <MakeConnection user={user.user!} responder={sender!} />
+      )}
     </div>
   );
 };
+
+function MakeConnection({ user, responder }: { user: User; responder: User }) {
+  const router = useRouter();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const response = await fetch("/api/connections", {
+      method: "POST",
+      body: JSON.stringify({
+        user: user.userId,
+        responder: responder.userId,
+      }),
+    });
+    if (response.ok) {
+      router.push(`/chat/${responder.userId}`);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <button className="bg-blue-500 text-white p-2 rounded">Connect</button>
+    </form>
+  );
+}
 
 const ProfileImage = () => {
   return (

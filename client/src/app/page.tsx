@@ -1,7 +1,7 @@
 "use client";
 
 import Login from "@/components/Login";
-import { MakePost, Posts } from "@/components/Post";
+import { Posts } from "@/components/Post";
 
 export default function Home() {
   return (
