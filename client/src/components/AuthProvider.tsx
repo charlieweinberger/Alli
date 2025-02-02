@@ -4,8 +4,8 @@ import { createContext, ReactNode, useContext, useState } from "react";
 
 interface AuthContextType {
   user: User | null;
-  login: (user: User) => void;
-  logout: () => void;
+  signIn: (user: User) => void;
+  signOut: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -13,15 +13,15 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
-  const login = (userData: User) => {
+  const signIn = (userData: User) => {
     setUser(userData);
   };
 
-  const logout = () => {
+  const signOut = () => {
     setUser(null);
   };
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );
