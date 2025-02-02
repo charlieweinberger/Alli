@@ -28,16 +28,7 @@ export const Post = ({ post }: Props) => {
           onMouseEnter={() => setShowProfile(true)}
           onMouseLeave={() => setShowProfile(false)}
         >
-          <img
-            src={`https://randomfox.ca/images/${Math.floor(
-              Math.random() * 51
-            )}.jpg`}
-            alt="Profile"
-            width={40}
-            height={40}
-            className="w-10 h-10 rounded-full object-cover"
-            loading="lazy"
-          />
+          <ProfileImage />
           <div>
             <p className="font-medium">{sender.name}</p>
             <p className="text-gray-500">@{sender.username}</p>
@@ -59,6 +50,21 @@ export const Post = ({ post }: Props) => {
       )}
       <h2 className="text-xl font-bold text-gray-800">{post.title}</h2>
       <p className="text-gray-600">{post.description}</p>
+    </div>
+  );
+};
+
+const ProfileImage = () => {
+  return (
+    <div className="relative w-12 h-12 rounded-full overflow-hidden">
+      <Image
+        src={`https://randomfox.ca/images/${Math.floor(
+          Math.random() * 51
+        )}.jpg`}
+        alt="profile"
+        layout="fill"
+        objectFit="cover"
+      />
     </div>
   );
 };
