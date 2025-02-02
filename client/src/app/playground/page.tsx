@@ -224,7 +224,7 @@ export default function VideoCall() {
         <div>Loading camera...</div>
       ) : (
         <div className="grid gap-1 flex-1">
-          {/* <EmotionalAnalysis data={frameData} /> */}
+          <EmotionalAnalysis data={frameData} />
           <video ref={videoRef} autoPlay muted className="w-full h-full" />
 
           <HumeVoiceComponent
